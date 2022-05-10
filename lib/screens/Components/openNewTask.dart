@@ -23,6 +23,9 @@ class newTask extends StatefulWidget {
 class _newTaskState extends State<newTask> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  DateTime date = DateTime(2022, 5, 4);
+  DateTime? newDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,15 +146,32 @@ class _newTaskState extends State<newTask> {
                           SizedBox(
                             height: 50,
                           ),
+                          Text(
+                            "Дуусах хугацаа",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                          SizedBox(height: 30),
                           Container(
                             padding: const EdgeInsets.all(10),
                             color: Colors.grey.withOpacity(0.1),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: "Дуусах хугацаа",
-                                border: InputBorder.none,
-                              ),
-                              style: TextStyle(fontSize: 18),
+                            child: MaterialButton(
+                              minWidth: double.infinity,
+                              onPressed: () async {
+                                newDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: date,
+                                  firstDate: DateTime(2018),
+                                  lastDate: DateTime(2050),
+                                );
+                                if (newDate == null) return;
+
+                                print(newDate);
+                              },
+                              child: Text(
+                                  DateTime.now().toString().substring(0, 10)),
+                              // child: Text(newDate.now().toString()),
                             ),
                           ),
                           const SizedBox(
@@ -166,7 +186,7 @@ class _newTaskState extends State<newTask> {
 
                                 Todo newTodo =
                                     await DatabaseHelper.instance.insert(Todo(
-                                  //date: DateTime.parse(date),
+                                  date: newDate,
                                   description: description,
                                   title: title,
                                   done: false,

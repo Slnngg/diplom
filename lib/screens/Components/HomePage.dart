@@ -5,7 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:first_app/screens/Components/openNewNote.dart';
 import 'package:first_app/screens/Components/openNewTask.dart';
-
+import 'package:first_app/screens/Components/Menu.dart';
 import '../../utils/db_model.dart';
 
 class HomePage extends StatelessWidget {
@@ -56,282 +56,295 @@ class _homePageState extends State<homePage> {
   // late CalendarController ctrlr = new CalendarController();
   @override
   Widget build(BuildContext context) {
-    //var drawer;
+    var drawer;
     return Scaffold(
+        drawer: Menu(),
         body: Stack(children: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppBar(
-            backgroundColor: const Color.fromARGB(255, 255, 125, 168),
-            elevation: 0,
-            title: const Text(
-              "Тавтай морилно уу",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Body()));
-                },
-                icon: const Icon(Icons.logout),
-              ),
-            ],
-          ),
-          //drawer: const NavigationDrawer();
-          Container(
-              height: 70,
-              color: const Color.fromARGB(255, 255, 125, 168),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      InkWell(
-                        onTap: () {
-                          changeFilter("Өнөөдөр");
-                        },
-                        child: const Text(
-                          "Өнөөдөр",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                          height: 4,
-                          width: 120,
-                          color: (filterType == "Өнөөдөр")
-                              ? Colors.white
-                              : Colors.transparent),
-                    ]),
-                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      InkWell(
-                        onTap: () {
-                          changeFilter("Сар бүр");
-                        },
-                        child: const Text(
-                          "Сар бүр",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        height: 4,
-                        width: 120,
-                        color: (filterType == "Сар бүр")
-                            ? Colors.white
-                            : Colors.transparent,
-                      )
-                    ]),
-                  ])),
-          (filterType == "Сар бүр")
-              ? TableCalendar(
-                  focusedDay: focusedDay,
-                  firstDay: DateTime(2018),
-                  lastDay: DateTime(2050),
-                  calendarFormat: format,
-                  onFormatChanged: (CalendarFormat _format) {
-                    setState(() {
-                      format = _format;
-                    });
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppBar(
+                leading: IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Menu()));
                   },
-                  startingDayOfWeek: StartingDayOfWeek.monday,
-                  daysOfWeekVisible: true,
-                  onDaySelected: (
-                    DateTime selectDay,
-                    DateTime focusDay,
-                  ) {
-                    setState(() {
-                      selectedDay = selectDay;
-                      focusedDay = focusDay;
-                    });
-                    print(selectDay);
-                    print(focusDay);
-                  },
-                  selectedDayPredicate: (DateTime date) {
-                    return isSameDay(selectedDay, date);
-                  },
-                  calendarStyle: const CalendarStyle(
-                    isTodayHighlighted: true,
-                    selectedDecoration: BoxDecoration(
-                      color: Colors.amber,
-                      shape: BoxShape.circle,
-                    ),
-                    selectedTextStyle: TextStyle(
-                      color: Colors.white,
-
-                      // todayDecoration: const BoxDecoration(
-                      //   color: Colors.red,
-                      // ),
-                    ),
-                  ),
-
-                  // calendarController: ctrlr,
-                  // startingDayOfWeek: StartingDayOfWeek.monday,
-                  // initialCalendarFormat: CalendarFormat.week,
-                )
-              : Container(),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 10),
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Today ${monthNames[selectedDay.month - 1]}, ${selectedDay.day}/${selectedDay.year}",
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
+                ),
+                backgroundColor: const Color.fromARGB(255, 255, 125, 168),
+                elevation: 0,
+                title: const Text(
+                  "Тавтай морилно уу",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
                   ),
                 ),
-                Expanded(
-                  child: FutureBuilder<List<Todo>>(
-                    future: DatabaseHelper.instance.getTodoListByDate(
-                        selectedDay.toString().substring(0, 10)),
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return Container(
-                          child: Text("Empty"),
-                        );
-                      }
-                      return ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          return taskWidget(
-                              Colors.blue,
-                              snapshot.data![index].title ?? "",
-                              snapshot.data![index].description ?? "");
-                        },
-                      );
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Body()));
                     },
+                    icon: const Icon(Icons.logout),
                   ),
-                ),
-                // taskWidget(Colors.blue, "Work out", "10:00 AM"),
-                // taskWidget(
-                //     Colors.red, "10 step skincare routine", "23:00 PM"),
-              ],
-            ),
-          ),
-          Container(
-            height: 110,
-            child: Stack(
-              children: [
-                Positioned(
-                  bottom: 25,
-                  left: 0,
-                  right: 0,
-                  child: InkWell(
-                    onTap: openTaskPop,
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topRight,
-                          colors: const [Colors.white, Colors.white],
+                ],
+              ),
+              //drawer: const NavigationDrawer();
+              Container(
+                  height: 70,
+                  color: const Color.fromARGB(255, 255, 125, 168),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  changeFilter("Өнөөдөр");
+                                },
+                                child: const Text(
+                                  "Өнөөдөр",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                  height: 4,
+                                  width: 120,
+                                  color: (filterType == "Өнөөдөр")
+                                      ? Colors.white
+                                      : Colors.transparent),
+                            ]),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  changeFilter("Сар бүр");
+                                },
+                                child: const Text(
+                                  "Сар бүр",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                height: 4,
+                                width: 120,
+                                color: (filterType == "Сар бүр")
+                                    ? Colors.white
+                                    : Colors.transparent,
+                              )
+                            ]),
+                      ])),
+              (filterType == "Сар бүр")
+                  ? TableCalendar(
+                      focusedDay: focusedDay,
+                      firstDay: DateTime(2018),
+                      lastDay: DateTime(2050),
+                      calendarFormat: format,
+                      onFormatChanged: (CalendarFormat _format) {
+                        setState(() {
+                          format = _format;
+                        });
+                      },
+                      startingDayOfWeek: StartingDayOfWeek.monday,
+                      daysOfWeekVisible: true,
+                      onDaySelected: (
+                        DateTime selectDay,
+                        DateTime focusDay,
+                      ) {
+                        setState(() {
+                          selectedDay = selectDay;
+                          focusedDay = focusDay;
+                        });
+                        print(selectDay);
+                        print(focusDay);
+                      },
+                      selectedDayPredicate: (DateTime date) {
+                        return isSameDay(selectedDay, date);
+                      },
+                      calendarStyle: const CalendarStyle(
+                        isTodayHighlighted: true,
+                        selectedDecoration: BoxDecoration(
+                          color: Colors.amber,
+                          shape: BoxShape.circle,
                         ),
-                        shape: BoxShape.circle,
+                        selectedTextStyle: TextStyle(
+                          color: Colors.white,
+
+                          // todayDecoration: const BoxDecoration(
+                          //   color: Colors.red,
+                          // ),
+                        ),
                       ),
-                      child: Center(
-                        child: Text("+",
-                            style: TextStyle(
-                              fontSize: 50,
-                              color: Color.fromARGB(255, 255, 125, 168),
-                            )),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-      Container(
-        child: (taskPop == "open")
-            ? Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.black.withOpacity(0.3),
-                child: Center(
-                  child: InkWell(
-                    onTap: closeTaskPop,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Colors.white,
-                      ),
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      width: MediaQuery.of(context).size.width * 0.7,
+
+                      // calendarController: ctrlr,
+                      // startingDayOfWeek: StartingDayOfWeek.monday,
+                      // initialCalendarFormat: CalendarFormat.week,
+                    )
+                  : Container(),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.all(20),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 1),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NewTask()));
-                            },
-                            child: Container(
-                                child: Text(
-                              "Add task",
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            )),
+                          Text(
+                            "Today ${monthNames[selectedDay.month - 1]}, ${selectedDay.day}/${selectedDay.year}",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey,
+                            ),
                           ),
-                          Container(
-                            height: 1,
-                            margin: EdgeInsets.symmetric(horizontal: 30),
-                            color: Colors.black.withOpacity(0.2),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NewNote()));
-                            },
-                            child: Container(
-                                child: Text(
-                              "Add memo",
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            )),
-                          ),
-                          Container(
-                            height: 1,
-                            margin: EdgeInsets.symmetric(horizontal: 30),
-                            color: Colors.black.withOpacity(0.2),
-                          ),
-                          SizedBox(height: 1),
                         ],
                       ),
                     ),
-                  ),
+                    Expanded(
+                      child: FutureBuilder<List<Todo>>(
+                        future: DatabaseHelper.instance.getTodoListByDate(
+                            selectedDay.toString().substring(0, 10)),
+                        builder: (context, snapshot) {
+                          if (snapshot.data == null) {
+                            return Container(
+                              child: Text("Empty"),
+                            );
+                          }
+                          return ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return taskWidget(
+                                  Colors.blue,
+                                  snapshot.data![index].title ?? "",
+                                  snapshot.data![index].description ?? "");
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    // taskWidget(Colors.blue, "Work out", "10:00 AM"),
+                    // taskWidget(
+                    //     Colors.red, "10 step skincare routine", "23:00 PM"),
+                  ],
+                ),
+              ),
+              Container(
+                height: 110,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      bottom: 25,
+                      left: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: openTaskPop,
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.topRight,
+                              colors: const [Colors.white, Colors.white],
+                            ),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text("+",
+                                style: TextStyle(
+                                  fontSize: 50,
+                                  color: Color.fromARGB(255, 255, 125, 168),
+                                )),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               )
-            : Container(),
-      )
-    ]));
+            ],
+          ),
+          Container(
+            child: (taskPop == "open")
+                ? Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.black.withOpacity(0.3),
+                    child: Center(
+                      child: InkWell(
+                        onTap: closeTaskPop,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white,
+                          ),
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              SizedBox(height: 1),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NewTask()));
+                                },
+                                child: Container(
+                                    child: Text(
+                                  "Add task",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                )),
+                              ),
+                              Container(
+                                height: 1,
+                                margin: EdgeInsets.symmetric(horizontal: 30),
+                                color: Colors.black.withOpacity(0.2),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NewNote()));
+                                },
+                                child: Container(
+                                    child: Text(
+                                  "Add memo",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                )),
+                              ),
+                              Container(
+                                height: 1,
+                                margin: EdgeInsets.symmetric(horizontal: 30),
+                                color: Colors.black.withOpacity(0.2),
+                              ),
+                              SizedBox(height: 1),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
+          )
+        ]));
   }
 
   openTaskPop() {
