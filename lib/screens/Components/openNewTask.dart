@@ -23,8 +23,9 @@ class newTask extends StatefulWidget {
 class _newTaskState extends State<newTask> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
-  DateTime date = DateTime(2022, 5, 4);
+  DateTime date = DateTime.now();
   DateTime? newDate = DateTime.now();
+  DateTime? selected = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -166,11 +167,12 @@ class _newTaskState extends State<newTask> {
                                   lastDate: DateTime(2050),
                                 );
                                 if (newDate == null) return;
-
+                                setState(() {
+                                  selected = newDate;
+                                });
                                 print(newDate);
                               },
-                              child: Text(
-                                  DateTime.now().toString().substring(0, 10)),
+                              child: Text(newDate.toString().substring(0, 10)),
                               // child: Text(newDate.now().toString()),
                             ),
                           ),

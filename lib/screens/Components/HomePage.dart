@@ -57,20 +57,36 @@ class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
     var drawer;
+    final GlobalKey<ScaffoldState> _drawerscaffoldkey =
+        new GlobalKey<ScaffoldState>();
     return Scaffold(
+        key: _drawerscaffoldkey, //set gobal key defined above
         drawer: Menu(),
         body: Stack(children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppBar(
+                // leading: IconButton(
+                //   icon: Icon(Icons.menu),
+                //   onPressed: () {
+                //     Navigator.push(context,
+                //         MaterialPageRoute(builder: (context) => Menu()));
+                //   },
+                // ),
                 leading: IconButton(
-                  icon: Icon(Icons.menu),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Menu()));
+                    //on drawer menu pressed
+                    if (_drawerscaffoldkey.currentState!.isDrawerOpen) {
+                      //if drawer is open, then close the drawer
+                      Navigator.pop(context);
+                    } else {
+                      _drawerscaffoldkey.currentState!.openDrawer();
+                      //if drawer is closed then open the drawer.
+                    }
                   },
-                ),
+                  icon: Icon(Icons.menu),
+                ), // Set menu icon at le
                 backgroundColor: const Color.fromARGB(255, 255, 125, 168),
                 elevation: 0,
                 title: const Text(

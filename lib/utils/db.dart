@@ -79,7 +79,7 @@ create table $tableTodo (
           columnDone,
           columnTitle,
           columnDescription,
-          columnDate
+          columnDate,
         ],
         where: '$columnId = ?',
         whereArgs: [id]);
