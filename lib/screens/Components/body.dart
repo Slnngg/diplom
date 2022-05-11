@@ -1,8 +1,6 @@
 import 'package:first_app/screens/Components/login.dart';
 import 'package:first_app/screens/Components/signup.dart';
-import 'package:first_app/screens/Components/choicePage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class Body extends StatelessWidget {
   @override
