@@ -2,9 +2,9 @@ import 'package:first_app/utils/db.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:first_app/screens/Components/openNewNote.dart';
-import 'package:first_app/screens/Components/openNewTask.dart';
-import 'package:first_app/screens/Components/Menu.dart';
+import 'package:first_app/screens/HomePage/openNewNote.dart';
+import 'package:first_app/screens/HomePage/openNewTask.dart';
+import 'package:first_app/screens/Menu/Menu.dart';
 import '../../utils/db_model.dart';
 
 class HomePage extends StatelessWidget {
@@ -30,6 +30,7 @@ class _homePageState extends State<homePage> {
   DateTime focusedDay = DateTime.now();
   String taskPop = "close";
   CalendarFormat format = CalendarFormat.month;
+  //String taskPop  = "close";
   @override
   void initState() {
     print(today.toString());
@@ -51,6 +52,7 @@ class _homePageState extends State<homePage> {
     "NOV",
     "DEC"
   ];
+  // late CalendarController ctrlr = new CalendarController();
   @override
   Widget build(BuildContext context) {
     var screen = MediaQuery.of(context).size;
@@ -58,23 +60,33 @@ class _homePageState extends State<homePage> {
     final GlobalKey<ScaffoldState> _drawerscaffoldkey =
         new GlobalKey<ScaffoldState>();
     return Scaffold(
-        key: _drawerscaffoldkey,
+        key: _drawerscaffoldkey, //set gobal key defined above
         drawer: Menu(),
         body: Stack(children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppBar(
+                // leading: IconButton(
+                //   icon: Icon(Icons.menu),
+                //   onPressed: () {
+                //     Navigator.push(context,
+                //         MaterialPageRoute(builder: (context) => Menu()));
+                //   },
+                // ),
                 leading: IconButton(
                   onPressed: () {
+                    //on drawer menu pressed
                     if (_drawerscaffoldkey.currentState!.isDrawerOpen) {
+                      //if drawer is open, then close the drawer
                       Navigator.pop(context);
                     } else {
                       _drawerscaffoldkey.currentState!.openDrawer();
+                      //if drawer is closed then open the drawer.
                     }
                   },
                   icon: Icon(Icons.menu),
-                ),
+                ), // Set menu icon at le
                 backgroundColor: const Color.fromARGB(255, 255, 125, 168),
                 elevation: 0,
                 title: const Text(
@@ -85,7 +97,17 @@ class _homePageState extends State<homePage> {
                     color: Colors.white,
                   ),
                 ),
+                // actions: [
+                //   IconButton(
+                //     onPressed: () {
+                //       Navigator.push(context,
+                //           MaterialPageRoute(builder: (context) => Body()));
+                //     },
+                //     icon: const Icon(Icons.logout),
+                //   ),
+                // ],
               ),
+              //drawer: const NavigationDrawer();
               Container(
                   height: 70,
                   color: const Color.fromARGB(255, 255, 125, 168),

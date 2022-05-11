@@ -1,7 +1,7 @@
 import 'package:first_app/utils/db.dart';
 import 'package:first_app/utils/db_model.dart';
 import 'package:flutter/material.dart';
-import 'package:first_app/screens/Components/HomePage.dart';
+import 'package:first_app/screens/HomePage/HomePage.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NewTask extends StatelessWidget {

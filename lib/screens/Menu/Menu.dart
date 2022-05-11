@@ -1,4 +1,4 @@
-import 'package:first_app/screens/Components/body.dart';
+import 'package:first_app/screens/Welcome/body.dart';
 import 'package:flutter/material.dart';
 
 class Menu extends StatelessWidget {

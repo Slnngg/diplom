@@ -1,10 +1,18 @@
-import 'package:first_app/screens/Components/ForgetPass.dart';
-import 'package:first_app/screens/Components/signup.dart';
+import 'package:first_app/screens/HomePage/HomePage.dart';
+import 'package:first_app/screens/signup/signup.dart';
 import 'package:flutter/material.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class ForgetPass extends StatelessWidget {
+String _email = '';
+String _password = '';
+
+class LogInPage extends StatelessWidget {
+  final _auth = FirebaseAuth.instance;
+  var currentUser = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {}
+
   get onPressed => null;
 
   @override
@@ -40,20 +48,37 @@ class ForgetPass extends StatelessWidget {
                       Column(
                         children: <Widget>[
                           Text(
-                            "Нууц үг сэргээх?",
+                            "Нэвтрэх",
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(height: 15),
+                          Text(
+                            "Та өөрийн мэдээллийг оруулна уу",
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.black,
+                            ),
+                          )
                         ],
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 100),
+                        height: 150,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/main-pink.png"),
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30),
                         child: Column(children: [
                           inputFile(label: "Имэйл"),
-                          //inputPass(label: "Нууц үг", obscureText: true),
+                          inputPass(label: "Нууц үг", obscureText: true),
                         ]),
                       ),
                       Padding(
@@ -63,7 +88,26 @@ class ForgetPass extends StatelessWidget {
                           child: MaterialButton(
                             minWidth: double.infinity,
                             height: 37,
-                            onPressed: () {},
+                            onPressed: () async {
+                              try {
+                                final user =
+                                    await _auth.signInWithEmailAndPassword(
+                                        email: _email, password: _password);
+
+                                if (user != null) {
+                                  _email:
+                                  '';
+                                  _password:
+                                  '';
+                                  print("Success");
+                                  Navigator.pushNamed(context, '/landingpage');
+                                } else {
+                                  print("User is not found");
+                                }
+                              } catch (e) {
+                                print(e);
+                              }
+                            },
                             // {
                             //   Navigator.push(
 
@@ -114,6 +158,12 @@ class ForgetPass extends StatelessWidget {
                                 fontSize: 15,
                               ),
                             )),
+                            // onLongPress: () {
+                            //   Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: ((context) => ForgetPass())));
+                            // },
                           ),
                         ],
                       ),
@@ -140,9 +190,9 @@ Widget inputFile({label, obscureText = false}) {
         height: 5,
       ),
       TextField(
-        // onChanged: (value) {
-        //   _email = value;
-        // },
+        onChanged: (value) {
+          _email = value;
+        },
         obscureText: obscureText,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -163,52 +213,37 @@ Widget inputFile({label, obscureText = false}) {
   );
 }
 
-// Widget inputPass({label, obscureText = false}) {
-//   return Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: <Widget>[
-//       Text(
-//         label,
-//         style: TextStyle(
-//             fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-//       ),
-//       SizedBox(
-//         height: 5,
-//       ),
-//       TextField(
-//         onChanged: (value) {
-//           _password = value;
-//         },
-//         obscureText: obscureText,
-//         decoration: InputDecoration(
-//           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-//           enabledBorder: OutlineInputBorder(
-//             borderSide: BorderSide(
-//               color: Colors.grey,
-//             ),
-//           ),
-//           border: OutlineInputBorder(
-//             borderSide: BorderSide(
-//               color: Colors.grey,
-//             ),
-//           ),
-//         ),
-//       ),
-//       SizedBox(height: 5),
-//       MaterialButton(
-//         onPressed: () {
-//           Navigator.push(
-//               context, MaterialPageRoute(builder: ((context) => ForgetPass())));
-//         },
-//         child: Text(
-//           "Нууц үгээ мартсан уу",
-//           textAlign: TextAlign.right,
-//           style: TextStyle(
-//             color: Color.fromARGB(255, 255, 125, 168),
-//             fontSize: 16,
-//           ),
-//         ),
-//       ),
-//     ],
-//   );
-// }
+Widget inputPass({label, obscureText = false}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Text(
+        label,
+        style: TextStyle(
+            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+      TextField(
+        onChanged: (value) {
+          _password = value;
+        },
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.grey,
+            ),
+          ),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.grey,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
