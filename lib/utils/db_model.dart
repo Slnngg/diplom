@@ -1,9 +1,9 @@
-final String tableTodo = 'todo';
-final String columnId = '_id';
-final String columnTitle = 'title';
-final String columnDone = 'done';
-final String columnDescription = 'description';
-final String columnDate = 'date';
+const String tableTodo = 'todo';
+const String columnId = '_id';
+const String columnTitle = 'title';
+const String columnDone = 'done';
+const String columnDescription = 'description';
+const String columnDate = 'date';
 
 class Todo {
   int? id;
@@ -40,7 +40,7 @@ class Todo {
     if (map[columnId] != null) {
       id = int.parse(map[columnId].toString());
     }
-    if (title != null) {
+    if (map[columnTitle] != null) {
       title = map[columnTitle]?.toString();
     }
     if (map[columnDescription] != null) {

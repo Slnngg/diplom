@@ -76,10 +76,10 @@ class _newNoteState extends State<newNote> {
                               style: TextStyle(fontSize: 18),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 25,
                             ),
                             Container(
-                              height: 150,
+                              height: 200,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                   color: Colors.white,
@@ -98,7 +98,7 @@ class _newNoteState extends State<newNote> {
                               ),
                             ),
                             Container(
-                              height: 50,
+                              height: 40,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                   color: Colors.grey.withOpacity(0.2),
@@ -111,7 +111,9 @@ class _newNoteState extends State<newNote> {
                             SizedBox(
                               height: 300,
                             ),
-                            ElevatedButton(
+                            MaterialButton(
+                                minWidth: double.infinity,
+                                height: 37,
                                 onPressed: () {
                                   // String title = _titleController.text;
                                   // String description =
@@ -125,6 +127,11 @@ class _newNoteState extends State<newNote> {
                                   //   title: title,
                                   //   done: false,
                                 },
+                                color: Color.fromARGB(255, 255, 125, 168),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
                                 child: Text(
                                   "Хадгалах",
                                   style: TextStyle(

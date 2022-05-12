@@ -108,18 +108,6 @@ class LogInPage extends StatelessWidget {
                                 print(e);
                               }
                             },
-                            // {
-                            //   Navigator.push(
-
-                            //       context,
-                            //       MaterialPageRoute(
-                            //           builder: (context) => HomePage()));
-                            // }
-                            // color: Color.fromARGB(255, 255, 125, 168),
-                            // elevation: 0,
-                            // shape: RoundedRectangleBorder(
-                            //   borderRadius: BorderRadius.circular(50),
-                            // ),
                             color: Color.fromARGB(255, 255, 125, 168),
                             elevation: 0,
                             shape: RoundedRectangleBorder(

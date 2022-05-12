@@ -30,9 +30,12 @@ class _homePageState extends State<homePage> {
   DateTime focusedDay = DateTime.now();
   String taskPop = "close";
   CalendarFormat format = CalendarFormat.month;
+  bool? remember;
+
   //String taskPop  = "close";
   @override
   void initState() {
+    remember = false;
     print(today.toString());
     print(today.toIso8601String());
     super.initState();
@@ -52,7 +55,6 @@ class _homePageState extends State<homePage> {
     "NOV",
     "DEC"
   ];
-  // late CalendarController ctrlr = new CalendarController();
   @override
   Widget build(BuildContext context) {
     var screen = MediaQuery.of(context).size;
@@ -153,7 +155,7 @@ class _homePageState extends State<homePage> {
                               const SizedBox(height: 10),
                               Container(
                                 height: 4,
-                                width: 120,
+                                width: screen.width / 2 - 10,
                                 color: (filterType == "Сар бүр")
                                     ? Colors.white
                                     : Colors.transparent,
@@ -241,9 +243,13 @@ class _homePageState extends State<homePage> {
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
                               return taskWidget(
-                                  Colors.blue,
-                                  snapshot.data![index].title ?? "",
-                                  snapshot.data![index].description ?? "");
+                                Color.fromARGB(255, 255, 125, 168),
+                                snapshot.data![index].title ?? "",
+                                snapshot.data![index].description ?? "",
+                                snapshot.data![index].date.toString(),
+                                snapshot.data![index].done ?? false,
+                                snapshot.data![index].id ?? 0,
+                              );
                             },
                           );
                         },
@@ -378,10 +384,9 @@ class _homePageState extends State<homePage> {
     setState(() {});
   }
 
-  Slidable taskWidget(Color color, String title, String time) {
+  Slidable taskWidget(Color color, String title, String description,
+      String time, bool done, int id) {
     return Slidable(
-      // actionPane: SlidableDrawerActionPane(),
-      // actionExtentRatio: 0.3,
       child: Container(
         height: 80,
         margin: const EdgeInsets.symmetric(
@@ -398,18 +403,31 @@ class _homePageState extends State<homePage> {
         ]),
         child: Row(
           children: [
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              height: 15,
-              width: 15,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: color,
-                    width: 2,
-                  )),
-            ),
+            Checkbox(
+                activeColor: Color.fromARGB(255, 255, 125, 168),
+                value: done,
+                onChanged: (value) {
+                  DatabaseHelper.instance.update(Todo(
+                      done: value,
+                      title: title,
+                      description: description,
+                      date: DateTime.parse(time),
+                      id: id));
+                  setState(() {});
+                }),
+            // Container(
+            //   margin: const EdgeInsets.symmetric(horizontal: 20),
+            //   height: 15,
+            //   width: 15,
+            //   decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       shape: BoxShape.rectangle,
+            //       border: Border.all(
+            //         color: color,
+            //         width: 2,
+            //       )),
+            // ),
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -422,7 +440,7 @@ class _homePageState extends State<homePage> {
                   ),
                 ),
                 Text(
-                  time,
+                  description,
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 15,

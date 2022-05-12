@@ -3,8 +3,6 @@ import 'package:first_app/constant.dart';
 import 'package:first_app/screens/HomePage/HomePage.dart';
 import 'package:first_app/screens/Welcome/body.dart';
 import 'package:first_app/screens/login/login.dart';
-import 'package:first_app/screens/signup/signup.dart';
-import 'package:first_app/screens/welcome/Welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -27,7 +25,7 @@ class MyApp extends StatelessWidget {
       //home: Body(),
       initialRoute: "/",
       routes: {
-        '/': (context) => Body(),
+        '/': (context) => HomePage(),
         '/login': (context) => LogInPage(),
         '/signup': (context) => LogInPage(),
         '/landingpage': (context) => HomePage(),

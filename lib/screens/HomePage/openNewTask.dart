@@ -76,12 +76,14 @@ class _newTaskState extends State<newTask> {
                 child: Column(
                   children: [
                     Container(
+                      width: double.infinity,
                       padding: EdgeInsets.all(10),
                       color: Colors.grey.withOpacity(0.1),
+                      //height: 25,
                       child: TextField(
                         controller: _titleController,
                         decoration: InputDecoration(
-                            hintText: "Гарчиг", border: InputBorder.none),
+                            hintText: " Гарчиг", border: InputBorder.none),
                         style: TextStyle(fontSize: 18),
                       ),
                     ),
@@ -112,7 +114,7 @@ class _newTaskState extends State<newTask> {
                                     color: Colors.grey.withOpacity(0.3))),
                             child: TextField(
                               controller: _descriptionController,
-                              maxLines: 6,
+                              maxLines: 5,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "  Энд бичнэ үү",
@@ -130,19 +132,6 @@ class _newTaskState extends State<newTask> {
                                     bottomLeft: Radius.circular(15)),
                                 border: Border.all(
                                     color: Colors.grey.withOpacity(0.3))),
-                            //child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.start,
-                            //children: [
-                            //Container(
-                            //child: IconButton(
-                            //icon: Icon(
-                            //Icons.attach_file,
-                            //color: Colors.grey,
-                            //),
-                            //),
-                            // )
-                            //],
-                            //),
                           ),
                           SizedBox(
                             height: 50,
@@ -159,6 +148,7 @@ class _newTaskState extends State<newTask> {
                             color: Colors.grey.withOpacity(0.1),
                             child: MaterialButton(
                               minWidth: double.infinity,
+                              //height: 25,
                               onPressed: () async {
                                 newDate = await showDatePicker(
                                   context: context,
@@ -170,21 +160,23 @@ class _newTaskState extends State<newTask> {
                                 setState(() {
                                   selected = newDate;
                                 });
-                                print(newDate);
+                                //print(newDate);
                               },
                               child: Text(newDate.toString().substring(0, 10)),
-                              // child: Text(newDate.now().toString()),
                             ),
                           ),
                           const SizedBox(
                             height: 100,
                           ),
-                          ElevatedButton(
+                          MaterialButton(
+                              minWidth: double.infinity,
+                              height: 37,
                               onPressed: () async {
                                 String title = _titleController.text;
                                 String description =
                                     _descriptionController.text;
-                                //String date = _dateContoller.text;
+                                print(title);
+                                print(description);
 
                                 Todo newTodo =
                                     await DatabaseHelper.instance.insert(Todo(
@@ -199,36 +191,29 @@ class _newTaskState extends State<newTask> {
                                   print(newTodo);
                                   print("Success");
                                 }
-                                //Navigator.pop(HomePage());
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: ((context) => HomePage()),
                                     ));
                               },
+                              color: Color.fromARGB(255, 255, 125, 168),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
                               child: Text(
                                 "Хадгалах",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ))
-                          // Container(
-                          //   padding: EdgeInsets.symmetric(vertical: 15),
-                          //   width: double.infinity,
-                          //   decoration: BoxDecoration(
-                          //       borderRadius:
-                          //           BorderRadius.all(Radius.circular(15)),
-                          //       color: Color.fromARGB(255, 255, 125, 168)),
-                          //   child: Center(
-                          //     child: ,
-                          //   ),
-                          // )
                         ],
                       ),
                     )
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
