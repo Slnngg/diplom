@@ -249,6 +249,7 @@ class _homePageState extends State<homePage> {
                                 snapshot.data![index].date.toString(),
                                 snapshot.data![index].done ?? false,
                                 snapshot.data![index].id ?? 0,
+                                //snapshot.data![index].delete ??
                               );
                             },
                           );
@@ -400,6 +401,7 @@ class _homePageState extends State<homePage> {
             blurRadius: 20,
             spreadRadius: 1,
           ),
+          //Icon(Icons.delete);
         ]),
         child: Row(
           children: [
