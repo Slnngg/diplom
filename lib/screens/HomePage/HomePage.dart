@@ -62,33 +62,23 @@ class _homePageState extends State<homePage> {
     final GlobalKey<ScaffoldState> _drawerscaffoldkey =
         new GlobalKey<ScaffoldState>();
     return Scaffold(
-        key: _drawerscaffoldkey, //set gobal key defined above
+        key: _drawerscaffoldkey,
         drawer: Menu(),
         body: Stack(children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppBar(
-                // leading: IconButton(
-                //   icon: Icon(Icons.menu),
-                //   onPressed: () {
-                //     Navigator.push(context,
-                //         MaterialPageRoute(builder: (context) => Menu()));
-                //   },
-                // ),
                 leading: IconButton(
                   onPressed: () {
-                    //on drawer menu pressed
                     if (_drawerscaffoldkey.currentState!.isDrawerOpen) {
-                      //if drawer is open, then close the drawer
                       Navigator.pop(context);
                     } else {
                       _drawerscaffoldkey.currentState!.openDrawer();
-                      //if drawer is closed then open the drawer.
                     }
                   },
                   icon: Icon(Icons.menu),
-                ), // Set menu icon at le
+                ),
                 backgroundColor: const Color.fromARGB(255, 255, 125, 168),
                 elevation: 0,
                 title: const Text(
@@ -99,17 +89,7 @@ class _homePageState extends State<homePage> {
                     color: Colors.white,
                   ),
                 ),
-                // actions: [
-                //   IconButton(
-                //     onPressed: () {
-                //       Navigator.push(context,
-                //           MaterialPageRoute(builder: (context) => Body()));
-                //     },
-                //     icon: const Icon(Icons.logout),
-                //   ),
-                // ],
               ),
-              //drawer: const NavigationDrawer();
               Container(
                   height: 70,
                   color: const Color.fromARGB(255, 255, 125, 168),
@@ -203,10 +183,6 @@ class _homePageState extends State<homePage> {
                           // ),
                         ),
                       ),
-
-                      // calendarController: ctrlr,
-                      // startingDayOfWeek: StartingDayOfWeek.monday,
-                      // initialCalendarFormat: CalendarFormat.week,
                     )
                   : Container(),
               Expanded(
@@ -235,21 +211,27 @@ class _homePageState extends State<homePage> {
                             selectedDay.toString().substring(0, 10)),
                         builder: (context, snapshot) {
                           if (snapshot.data == null) {
-                            return Container(
-                              child: Text("Empty"),
+                            return Center(
+                              child: Image.asset("assets/images/empty.png"),
                             );
                           }
                           return ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
-                              return taskWidget(
-                                Color.fromARGB(255, 255, 125, 168),
-                                snapshot.data![index].title ?? "",
-                                snapshot.data![index].description ?? "",
-                                snapshot.data![index].date.toString(),
-                                snapshot.data![index].done ?? false,
-                                snapshot.data![index].id ?? 0,
-                                //snapshot.data![index].delete ??
+                              return GestureDetector(
+                                onLongPress: () {
+                                  DatabaseHelper.instance
+                                      .delete(snapshot.data![index].id!);
+                                },
+                                child: taskWidget(
+                                  Color.fromARGB(255, 255, 125, 168),
+                                  snapshot.data![index].title ?? "",
+                                  snapshot.data![index].description ?? "",
+                                  snapshot.data![index].date.toString(),
+                                  snapshot.data![index].done ?? false,
+                                  snapshot.data![index].id ?? 0,
+                                  //snapshot.data![index].delete ??
+                                ),
                               );
                             },
                           );
@@ -464,8 +446,3 @@ class _homePageState extends State<homePage> {
     );
   }
 }
-
-// class NavigatorDrawer extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) => Drawer();
-// }

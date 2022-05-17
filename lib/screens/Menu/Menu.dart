@@ -1,5 +1,7 @@
+import 'package:first_app/screens/Menu/allMemo.dart';
 import 'package:first_app/screens/Welcome/body.dart';
 import 'package:flutter/material.dart';
+import 'package:first_app/screens/Menu/checkTask.dart';
 
 class Menu extends StatelessWidget {
   // Size size = MediaQuery.of(context).size;
@@ -34,17 +36,20 @@ class Menu extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.favorite),
             title: Text("Биелүүлсэн зорилгууд"),
-            onTap: () => print('Done'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => checkTask()),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.note),
             title: Text("Бүх тэмдэглэлүүд"),
-            onTap: () => print('Memo'),
-          ),
-          ListTile(
-            leading: Icon(Icons.history),
-            title: Text("Түүх"),
-            onTap: () => print('his'),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => allMemo()));
+            },
           ),
           ListTile(
             leading: Icon(Icons.logout),

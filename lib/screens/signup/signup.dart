@@ -82,10 +82,6 @@ class SignUpPage extends StatelessWidget {
                             email: _email, password: _password);
 
                         if (user != null) {
-                          // _email:
-                          // '';
-                          // _password:
-                          // '';
                           print("Success");
                           Navigator.pushNamed(context, '/singup');
                         } else {

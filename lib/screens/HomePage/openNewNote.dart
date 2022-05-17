@@ -19,6 +19,7 @@ class newNote extends StatefulWidget {
 }
 
 class _newNoteState extends State<newNote> {
+  TextEditingController _descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +90,8 @@ class _newNoteState extends State<newNote> {
                                   border: Border.all(
                                       color: Colors.grey.withOpacity(0.5))),
                               child: TextField(
-                                maxLines: 6,
+                                controller: _descriptionController,
+                                maxLines: 5,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "  Энд бичнэ үү",
@@ -115,17 +117,14 @@ class _newNoteState extends State<newNote> {
                                 minWidth: double.infinity,
                                 height: 37,
                                 onPressed: () {
-                                  // String title = _titleController.text;
-                                  // String description =
-                                  //     _descriptionController.text;
-                                  // //String date = _dateContoller.text;
-                                  // print(title);
-                                  // print(description);
-                                  // Todo(
-                                  //   //date: date,
-                                  //   description: description,
-                                  //   title: title,
-                                  //   done: false,
+                                  String description =
+                                      _descriptionController.text;
+                                  print(description);
+                                  // Memo newTodo =
+                                  //   await DatabaseHelper.instance.insert(Todo(
+                                  // description: description,
+
+                                  // ));
                                 },
                                 color: Color.fromARGB(255, 255, 125, 168),
                                 elevation: 0,
