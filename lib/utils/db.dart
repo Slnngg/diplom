@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:first_app/utils/db_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -20,7 +22,7 @@ create table $tableTodo (
   $columnTitle text ,
   $columnDate text ,
   $columnDescription text ,
-  $columnDone integer ,
+  $columnDone integer)
 ''');
     });
   }
@@ -30,7 +32,7 @@ create table $tableTodo (
       Database db = await instance.database;
       todo.id = await db.insert(tableTodo, todo.toMap());
     } catch (e) {
-      print(e);
+      // print(e);
     }
     return todo;
   }

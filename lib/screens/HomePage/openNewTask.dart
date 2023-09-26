@@ -1,28 +1,32 @@
+// ignore_for_file: file_names, camel_case_types
 import 'package:first_app/utils/db.dart';
 import 'package:first_app/utils/db_model.dart';
 import 'package:flutter/material.dart';
 import 'package:first_app/screens/HomePage/HomePage.dart';
-import 'package:sqflite/sqflite.dart';
 
 class NewTask extends StatelessWidget {
+  const NewTask({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'avenir'),
-      home: newTask(),
+      home: const newTask(),
     );
   }
 }
 
 class newTask extends StatefulWidget {
+  const newTask({Key? key}) : super(key: key);
+
   @override
   _newTaskState createState() => _newTaskState();
 }
 
 class _newTaskState extends State<newTask> {
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   DateTime date = DateTime.now();
   DateTime? newDate = DateTime.now();
   DateTime? selected = DateTime.now();
@@ -32,30 +36,30 @@ class _newTaskState extends State<newTask> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 125, 168),
+        backgroundColor: const Color.fromARGB(255, 255, 125, 168),
         elevation: 0,
-        title: Text(
+        title: const Text(
           "Шинэ зорилго нэмэх",
           style: TextStyle(fontSize: 25),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
           },
         ),
       ),
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
             Container(
               height: 30,
-              color: Color.fromARGB(255, 255, 125, 168),
+              color: const Color.fromARGB(255, 255, 125, 168),
             ),
             Positioned(
               bottom: 0,
@@ -66,8 +70,8 @@ class _newTaskState extends State<newTask> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.symmetric(horizontal: 30),
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(7)),
                   color: Colors.white),
               width: MediaQuery.of(context).size.width,
@@ -77,37 +81,32 @@ class _newTaskState extends State<newTask> {
                   children: [
                     Container(
                       width: double.infinity,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       color: Colors.grey.withOpacity(0.1),
-                      //height: 25,
                       child: TextField(
                         controller: _titleController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             hintText: " Гарчиг", border: InputBorder.none),
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    const SizedBox(height: 15),
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Дэлгэрэнгүй",
                             style: TextStyle(fontSize: 18),
                           ),
-                          SizedBox(
-                            height: 30,
-                          ),
+                          const SizedBox(height: 30),
                           Container(
                             height: 150,
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                     topRight: Radius.circular(15),
                                     topLeft: Radius.circular(15)),
                                 border: Border.all(
@@ -115,11 +114,11 @@ class _newTaskState extends State<newTask> {
                             child: TextField(
                               controller: _descriptionController,
                               maxLines: 5,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "  Энд бичнэ үү",
                               ),
-                              style: TextStyle(fontSize: 18),
+                              style: const TextStyle(fontSize: 18),
                             ),
                           ),
                           Container(
@@ -127,28 +126,25 @@ class _newTaskState extends State<newTask> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 color: Colors.grey.withOpacity(0.1),
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                     bottomRight: Radius.circular(15),
                                     bottomLeft: Radius.circular(15)),
                                 border: Border.all(
                                     color: Colors.grey.withOpacity(0.3))),
                           ),
-                          SizedBox(
-                            height: 50,
-                          ),
-                          Text(
+                          const SizedBox(height: 50),
+                          const Text(
                             "Дуусах хугацаа",
                             style: TextStyle(
                               fontSize: 18,
                             ),
                           ),
-                          SizedBox(height: 30),
+                          const SizedBox(height: 30),
                           Container(
                             padding: const EdgeInsets.all(10),
                             color: Colors.grey.withOpacity(0.1),
                             child: MaterialButton(
                               minWidth: double.infinity,
-                              //height: 25,
                               onPressed: () async {
                                 newDate = await showDatePicker(
                                   context: context,
@@ -175,8 +171,8 @@ class _newTaskState extends State<newTask> {
                                 String title = _titleController.text;
                                 String description =
                                     _descriptionController.text;
-                                print(title);
-                                print(description);
+                                // print(title);
+                                // print(description);
 
                                 Todo newTodo =
                                     await DatabaseHelper.instance.insert(Todo(
@@ -186,23 +182,23 @@ class _newTaskState extends State<newTask> {
                                   done: false,
                                 ));
                                 if (newTodo.id == null) {
-                                  print("failed");
+                                  // print("failed");
                                 } else {
-                                  print(newTodo);
-                                  print("Success");
+                                  // print(newTodo);
+                                  // print("Success");
                                 }
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: ((context) => HomePage()),
+                                      builder: ((context) => const HomePage()),
                                     ));
                               },
-                              color: Color.fromARGB(255, 255, 125, 168),
+                              color: const Color.fromARGB(255, 255, 125, 168),
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),
-                              child: Text(
+                              child: const Text(
                                 "Хадгалах",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 18),

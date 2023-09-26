@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'package:first_app/utils/db.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -8,36 +9,41 @@ import 'package:first_app/screens/Menu/Menu.dart';
 import '../../utils/db_model.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'avenir'),
-      home: homePage(),
+      home: const homePage(),
     );
   }
 }
 
+// ignore: camel_case_types
 class homePage extends StatefulWidget {
+  const homePage({Key? key}) : super(key: key);
+
   @override
   _homePageState createState() => _homePageState();
 }
 
+// ignore: camel_case_types
 class _homePageState extends State<homePage> {
   String filterType = "Өнөөдөр";
-  DateTime today = new DateTime.now();
+  DateTime today = DateTime.now();
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
   String taskPop = "close";
   CalendarFormat format = CalendarFormat.month;
   bool? remember;
 
-  //String taskPop  = "close";
   @override
   void initState() {
     remember = false;
-    print(today.toString());
-    print(today.toIso8601String());
+    // print(today.toString());
+    // print(today.toIso8601String());
     super.initState();
   }
 
@@ -58,13 +64,13 @@ class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
     var screen = MediaQuery.of(context).size;
-    var drawer;
     final GlobalKey<ScaffoldState> _drawerscaffoldkey =
-        new GlobalKey<ScaffoldState>();
+        GlobalKey<ScaffoldState>();
     return Scaffold(
-        key: _drawerscaffoldkey,
-        drawer: Menu(),
-        body: Stack(children: [
+      key: _drawerscaffoldkey,
+      drawer: const Menu(),
+      body: Stack(
+        children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -77,7 +83,7 @@ class _homePageState extends State<homePage> {
                       _drawerscaffoldkey.currentState!.openDrawer();
                     }
                   },
-                  icon: Icon(Icons.menu),
+                  icon: const Icon(Icons.menu),
                 ),
                 backgroundColor: const Color.fromARGB(255, 255, 125, 168),
                 elevation: 0,
@@ -91,57 +97,57 @@ class _homePageState extends State<homePage> {
                 ),
               ),
               Container(
-                  height: 70,
-                  color: const Color.fromARGB(255, 255, 125, 168),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                height: 70,
+                color: const Color.fromARGB(255, 255, 125, 168),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                      InkWell(
+                        onTap: () {
+                          changeFilter("Өнөөдөр");
+                        },
+                        child: const Text(
+                          "Өнөөдөр",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                          height: 4,
+                          width: screen.width / 2 - 10,
+                          color: (filterType == "Өнөөдөр")
+                              ? Colors.white
+                              : Colors.transparent),
+                    ]),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  changeFilter("Өнөөдөр");
-                                },
-                                child: const Text(
-                                  "Өнөөдөр",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Container(
-                                  height: 4,
-                                  width: screen.width / 2 - 10,
-                                  color: (filterType == "Өнөөдөр")
-                                      ? Colors.white
-                                      : Colors.transparent),
-                            ]),
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  changeFilter("Сар бүр");
-                                },
-                                child: const Text(
-                                  "Сар бүр",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Container(
-                                height: 4,
-                                width: screen.width / 2 - 10,
-                                color: (filterType == "Сар бүр")
-                                    ? Colors.white
-                                    : Colors.transparent,
-                              )
-                            ]),
-                      ])),
+                        InkWell(
+                          onTap: () {
+                            changeFilter("Сар бүр");
+                          },
+                          child: const Text(
+                            "Сар бүр",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          height: 4,
+                          width: screen.width / 2 - 10,
+                          color: (filterType == "Сар бүр")
+                              ? Colors.white
+                              : Colors.transparent,
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               (filterType == "Сар бүр")
                   ? TableCalendar(
                       focusedDay: focusedDay,
@@ -163,8 +169,8 @@ class _homePageState extends State<homePage> {
                           selectedDay = selectDay;
                           focusedDay = focusDay;
                         });
-                        print(selectDay);
-                        print(focusDay);
+                        // print(selectDay);
+                        // print(focusDay);
                       },
                       selectedDayPredicate: (DateTime date) {
                         return isSameDay(selectedDay, date);
@@ -177,10 +183,6 @@ class _homePageState extends State<homePage> {
                         ),
                         selectedTextStyle: TextStyle(
                           color: Colors.white,
-
-                          // todayDecoration: const BoxDecoration(
-                          //   color: Colors.red,
-                          // ),
                         ),
                       ),
                     )
@@ -211,40 +213,29 @@ class _homePageState extends State<homePage> {
                             selectedDay.toString().substring(0, 10)),
                         builder: (context, snapshot) {
                           if (snapshot.data == null) {
-                            return Center(
-                              child: Image.asset("assets/images/empty.png"),
-                            );
+                            return const Text("Empty");
                           }
                           return ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onLongPress: () {
-                                  DatabaseHelper.instance
-                                      .delete(snapshot.data![index].id!);
-                                },
-                                child: taskWidget(
-                                  Color.fromARGB(255, 255, 125, 168),
-                                  snapshot.data![index].title ?? "",
-                                  snapshot.data![index].description ?? "",
-                                  snapshot.data![index].date.toString(),
-                                  snapshot.data![index].done ?? false,
-                                  snapshot.data![index].id ?? 0,
-                                  //snapshot.data![index].delete ??
-                                ),
+                              return taskWidget(
+                                const Color.fromARGB(255, 255, 125, 168),
+                                snapshot.data![index].title ?? "",
+                                snapshot.data![index].description ?? "",
+                                snapshot.data![index].date.toString(),
+                                snapshot.data![index].done ?? false,
+                                snapshot.data![index].id ?? 0,
+                                //snapshot.data![index].delete ??
                               );
                             },
                           );
                         },
                       ),
                     ),
-                    // taskWidget(Colors.blue, "Work out", "10:00 AM"),
-                    // taskWidget(
-                    //     Colors.red, "10 step skincare routine", "23:00 PM"),
                   ],
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 110,
                 child: Stack(
                   children: [
@@ -257,20 +248,22 @@ class _homePageState extends State<homePage> {
                         child: Container(
                           height: 60,
                           width: 60,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
                               begin: Alignment.topRight,
                               end: Alignment.topRight,
-                              colors: const [Colors.white, Colors.white],
+                              colors: [Colors.white, Colors.white],
                             ),
                             shape: BoxShape.circle,
                           ),
-                          child: Center(
-                            child: Text("+",
-                                style: TextStyle(
-                                  fontSize: 50,
-                                  color: Color.fromARGB(255, 255, 125, 168),
-                                )),
+                          child: const Center(
+                            child: Text(
+                              "+",
+                              style: TextStyle(
+                                fontSize: 50,
+                                color: Color.fromARGB(255, 255, 125, 168),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -290,7 +283,7 @@ class _homePageState extends State<homePage> {
                       child: InkWell(
                         onTap: closeTaskPop,
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Colors.white,
                           ),
@@ -299,25 +292,24 @@ class _homePageState extends State<homePage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              SizedBox(height: 1),
+                              const SizedBox(height: 1),
                               InkWell(
                                 onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => NewTask()));
+                                          builder: (context) =>
+                                              const NewTask()));
                                 },
-                                child: Container(
-                                    child: Text(
-                                  "Add task",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                )),
+                                child: const Text("Даалгавар нэмэх",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    )),
                               ),
                               Container(
                                 height: 1,
-                                margin: EdgeInsets.symmetric(horizontal: 30),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 30),
                                 color: Colors.black.withOpacity(0.2),
                               ),
                               InkWell(
@@ -325,22 +317,15 @@ class _homePageState extends State<homePage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => NewNote()));
+                                          builder: (context) =>
+                                              const NewNote()));
                                 },
-                                child: Container(
-                                    child: Text(
-                                  "Add memo",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                )),
+                                child: const Text("Тэмдэглэл нэмэх",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    )),
                               ),
-                              Container(
-                                height: 1,
-                                margin: EdgeInsets.symmetric(horizontal: 30),
-                                color: Colors.black.withOpacity(0.2),
-                              ),
-                              SizedBox(height: 1),
+                              const SizedBox(height: 1),
                             ],
                           ),
                         ),
@@ -349,7 +334,9 @@ class _homePageState extends State<homePage> {
                   )
                 : Container(),
           )
-        ]));
+        ],
+      ),
+    );
   }
 
   openTaskPop() {
@@ -376,19 +363,22 @@ class _homePageState extends State<homePage> {
           horizontal: 20,
           vertical: 10,
         ),
-        decoration: BoxDecoration(color: Colors.white, boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            offset: Offset(0, 9),
-            blurRadius: 20,
-            spreadRadius: 1,
-          ),
-          //Icon(Icons.delete);
-        ]),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.03),
+              offset: const Offset(0, 9),
+              blurRadius: 20,
+              spreadRadius: 1,
+            ),
+            //Icon(Icons.delete);
+          ],
+        ),
         child: Row(
           children: [
             Checkbox(
-                activeColor: Color.fromARGB(255, 255, 125, 168),
+                activeColor: const Color.fromARGB(255, 255, 125, 168),
                 value: done,
                 onChanged: (value) {
                   DatabaseHelper.instance.update(Todo(
@@ -399,42 +389,27 @@ class _homePageState extends State<homePage> {
                       id: id));
                   setState(() {});
                 }),
-            // Container(
-            //   margin: const EdgeInsets.symmetric(horizontal: 20),
-            //   height: 15,
-            //   width: 15,
-            //   decoration: BoxDecoration(
-            //       color: Colors.white,
-            //       shape: BoxShape.rectangle,
-            //       border: Border.all(
-            //         color: color,
-            //         width: 2,
-            //       )),
-            // ),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
                   ),
                 ),
                 Text(
                   description,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 15,
                   ),
                 )
               ],
             ),
-            Expanded(
-              child: Container(),
-            ),
+            // Expanded(child: Container()),
             Container(
               height: 50,
               width: 5,

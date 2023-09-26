@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'package:first_app/screens/Menu/allMemo.dart';
 import 'package:first_app/screens/Welcome/body.dart';
 import 'package:flutter/material.dart';
@@ -6,13 +7,15 @@ import 'package:first_app/screens/Menu/checkTask.dart';
 class Menu extends StatelessWidget {
   // Size size = MediaQuery.of(context).size;
   final padding = EdgeInsets.zero;
+
+  const Menu({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Drawer(
       // child: Container(color: Colors.white),
       child: ListView(
         children: [
-          UserAccountsDrawerHeader(
+          const UserAccountsDrawerHeader(
             accountName: Text(
               "Solongo",
               style: TextStyle(
@@ -28,14 +31,15 @@ class Menu extends StatelessWidget {
               ),
             ),
             decoration: BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage("assets/images/mountain.jpg"),
-              fit: BoxFit.cover,
-            )),
+              //   image: DecorationImage(
+              // image: AssetImage("assets/images/mountain.jpg"),
+              // fit: BoxFit.cover,
+              color: Colors.blue,
+            ),
           ),
           ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text("Биелүүлсэн зорилгууд"),
+            leading: const Icon(Icons.favorite),
+            title: const Text("Биелүүлсэн зорилгууд"),
             onTap: () {
               Navigator.push(
                 context,
@@ -44,19 +48,19 @@ class Menu extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.note),
-            title: Text("Бүх тэмдэглэлүүд"),
+            leading: const Icon(Icons.note),
+            title: const Text("Бүх тэмдэглэлүүд"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => allMemo()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const allMemo()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.logout),
-            title: Text("Гарах"),
+            leading: const Icon(Icons.logout),
+            title: const Text("Гарах"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Body()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Body()));
             },
           ),
         ],

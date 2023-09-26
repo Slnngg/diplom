@@ -8,27 +8,28 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'FlutterDemo',
+      // title: '',
       theme: ThemeData(
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.blue,
       ),
-      //home: Body(),
       initialRoute: "/",
       routes: {
-        '/': (context) => HomePage(),
+        '/': (context) => const Body(),
         '/login': (context) => LogInPage(),
         '/signup': (context) => LogInPage(),
-        '/landingpage': (context) => HomePage(),
+        '/landingpage': (context) => const HomePage(),
       },
     );
   }
