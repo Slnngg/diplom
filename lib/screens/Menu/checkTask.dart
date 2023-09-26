@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+// ignore_for_file: must_be_immutable, camel_case_types, file_names
 import 'package:flutter/material.dart';
 import 'package:first_app/screens/HomePage/HomePage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -25,32 +24,34 @@ class checkTask extends StatelessWidget {
   ];
 
   String filterType = "Өнөөдөр";
-  DateTime today = new DateTime.now();
+  DateTime today = DateTime.now();
   DateTime selectDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
   String taskPop = "close";
   CalendarFormat format = CalendarFormat.month;
   bool? remember;
 
+  checkTask({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 125, 168),
+        backgroundColor: const Color.fromARGB(255, 255, 125, 168),
         elevation: 0,
-        title: Text(
+        title: const Text(
           "Биелүүлсэн зорилгууд",
           style: TextStyle(fontSize: 25),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
           },
         ),
       ),
@@ -66,7 +67,8 @@ class checkTask extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                     child: Text(
                       "Today ${monthNames[selectedDay.month - 1]}, ${selectedDay.day}/${selectedDay.year}",
                       style: const TextStyle(
@@ -75,12 +77,37 @@ class checkTask extends StatelessWidget {
                       ),
                     ),
                   ),
-                  for (int i = 0; i < 3; i++)
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
-                      child: taskWidget(Color.fromARGB(255, 255, 125, 168),
-                          monthNames[i], "dahiad 1", "again one", true, 5),
-                    )
+                  Expanded(
+                    child: FutureBuilder<List<Todo>>(
+                      future: DatabaseHelper.instance.getTodoListByDate(
+                          selectedDay.toString().substring(0, 10)),
+                      builder: (context, snapshot) {
+                        if (snapshot.data == null) {
+                          return const Text("Empty");
+                        }
+                        return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return taskWidget(
+                              const Color.fromARGB(255, 255, 125, 168),
+                              snapshot.data![index].title ?? "",
+                              snapshot.data![index].description ?? "",
+                              snapshot.data![index].date.toString(),
+                              snapshot.data![index].done ?? false,
+                              snapshot.data![index].id ?? 0,
+                              //snapshot.data![index].delete ??
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  // for (int i = 0; i < 3; i++)
+                  //   Container(
+                  //     margin: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
+                  //     child: taskWidget(Color.fromARGB(255, 255, 125, 168),
+                  //         monthNames[i], "dahiad 1", "again one", true, 5),
+                  //   )
                 ],
               ),
             ),
@@ -103,19 +130,21 @@ class checkTask extends StatelessWidget {
           horizontal: 0,
           vertical: 10,
         ),
-        decoration: BoxDecoration(color: Colors.white, boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            offset: Offset(0, 9),
-            blurRadius: 20,
-            spreadRadius: 1,
-          ),
-          //Icon(Icons.delete);
-        ]),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.03),
+              offset: const Offset(0, 9),
+              blurRadius: 20,
+              spreadRadius: 1,
+            ),
+          ],
+        ),
         child: Row(
           children: [
             Checkbox(
-              activeColor: Color.fromARGB(255, 255, 125, 168),
+              activeColor: const Color.fromARGB(255, 255, 125, 168),
               value: done,
               onChanged: (bool? value) {},
             ),
@@ -125,23 +154,17 @@ class checkTask extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
+                  style: const TextStyle(color: Colors.black, fontSize: 18),
                 ),
                 Text(
                   description,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 15,
-                  ),
+                  style: const TextStyle(color: Colors.grey, fontSize: 15),
                 )
               ],
             ),
-            Expanded(
-              child: Container(),
-            ),
+            // Expanded(
+            //   child: Container(),
+            // ),
             Container(
               height: 50,
               width: 5,

@@ -1,48 +1,56 @@
+// ignore_for_file: file_names, camel_case_types
+
+import 'package:first_app/utils/memo.dart';
+import 'package:first_app/utils/memo_db.dart';
 import 'package:flutter/material.dart';
 
 import 'HomePage.dart';
 
 class NewNote extends StatelessWidget {
+  const NewNote({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'avenir'),
-      home: newNote(),
+      home: const newNote(),
     );
   }
 }
 
 class newNote extends StatefulWidget {
+  const newNote({Key? key}) : super(key: key);
+
   @override
   _newNoteState createState() => _newNoteState();
 }
 
 class _newNoteState extends State<newNote> {
-  TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 125, 168),
+        backgroundColor: const Color.fromARGB(255, 255, 125, 168),
         elevation: 0,
-        title: Text(
+        title: const Text(
           "Шинэ тэмдэглэл нэмэх",
           style: TextStyle(fontSize: 25),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
           },
         ),
       ),
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
@@ -55,36 +63,34 @@ class _newNoteState extends State<newNote> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.symmetric(horizontal: 30),
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(7)),
                   color: Colors.white),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.85,
               child: SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               "Тэмдэглэл бичих",
                               style: TextStyle(fontSize: 18),
                             ),
-                            SizedBox(
-                              height: 25,
-                            ),
+                            const SizedBox(height: 25),
                             Container(
                               height: 200,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                       topRight: Radius.circular(15),
                                       topLeft: Radius.circular(15)),
                                   border: Border.all(
@@ -92,11 +98,11 @@ class _newNoteState extends State<newNote> {
                               child: TextField(
                                 controller: _descriptionController,
                                 maxLines: 5,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "  Энд бичнэ үү",
                                 ),
-                                style: TextStyle(fontSize: 18),
+                                style: const TextStyle(fontSize: 18),
                               ),
                             ),
                             Container(
@@ -104,53 +110,46 @@ class _newNoteState extends State<newNote> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                   color: Colors.grey.withOpacity(0.2),
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                       bottomRight: Radius.circular(15),
                                       bottomLeft: Radius.circular(15)),
                                   border: Border.all(
                                       color: Colors.grey.withOpacity(0.5))),
                             ),
-                            SizedBox(
-                              height: 300,
-                            ),
+                            const SizedBox(height: 300),
                             MaterialButton(
                                 minWidth: double.infinity,
                                 height: 37,
-                                onPressed: () {
+                                onPressed: () async {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomePage()));
                                   String description =
                                       _descriptionController.text;
-                                  print(description);
-                                  // Memo newTodo =
-                                  //   await DatabaseHelper.instance.insert(Todo(
-                                  // description: description,
-
-                                  // ));
+                                  // print(description);
+                                  Note tableNotes =
+                                      await NotesDatabase.instance.create(Note(
+                                    description: description,
+                                  ));
+                                  if (tableNotes.id == null) {
+                                    // print("failed");
+                                  } else {
+                                    // print(tableNotes);
+                                    // print("Success");
+                                  }
                                 },
-                                color: Color.fromARGB(255, 255, 125, 168),
+                                color: const Color.fromARGB(255, 255, 125, 168),
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50),
                                 ),
-                                child: Text(
+                                child: const Text(
                                   "Хадгалах",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 18),
                                 ))
-                            // Container(
-                            //   padding: EdgeInsets.symmetric(vertical: 15),
-                            //   width: double.infinity,
-                            //   decoration: BoxDecoration(
-                            //       borderRadius:
-                            //           BorderRadius.all(Radius.circular(15)),
-                            //       color: Color.fromARGB(255, 255, 125, 168)),
-                            //   child: Center(
-                            //     child: Text(
-                            //       "Хадгалах",
-                            //       style: TextStyle(
-                            //           color: Colors.white, fontSize: 18),
-                            //     ),
-                            //   ),
-                            // )
                           ],
                         ),
                       )

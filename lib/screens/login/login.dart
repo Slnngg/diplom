@@ -1,4 +1,5 @@
-import 'package:first_app/screens/HomePage/HomePage.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:first_app/screens/signup/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,32 +11,31 @@ class LogInPage extends StatelessWidget {
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
 
-  @override
-  void initState() {}
+  LogInPage({Key? key}) : super(key: key);
 
   get onPressed => null;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        // brightness: Brightness.light,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          brightness: Brightness.light,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_ios),
-            iconSize: 20,
-            color: Colors.black,
-          ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+          iconSize: 20,
+          color: Colors.black,
         ),
-        body: Center(
-            child: SingleChildScrollView(
-          child: Container(
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height,
             width: double.infinity,
             child: Column(
@@ -46,7 +46,7 @@ class LogInPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Column(
-                        children: <Widget>[
+                        children: const <Widget>[
                           Text(
                             "Нэвтрэх",
                             style: TextStyle(
@@ -65,9 +65,9 @@ class LogInPage extends StatelessWidget {
                         ],
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 100),
+                        padding: const EdgeInsets.only(top: 100),
                         height: 150,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/main-pink.png"),
                             fit: BoxFit.fitHeight,
@@ -75,52 +75,43 @@ class LogInPage extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Column(children: [
                           inputFile(label: "Имэйл"),
                           inputPass(label: "Нууц үг", obscureText: true),
                         ]),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 40),
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: Container(
-                          padding: EdgeInsets.only(top: 30, left: 3),
+                          padding: const EdgeInsets.only(top: 30, left: 3),
                           child: MaterialButton(
                             minWidth: double.infinity,
                             height: 37,
                             onPressed: () async {
-                              try {
-                                final user =
-                                    await _auth.signInWithEmailAndPassword(
-                                        email: _email, password: _password);
+                              Navigator.pushNamed(context, '/landingpage');
+                              //   final user =
+                              //       await _auth.signInWithEmailAndPassword(
+                              //           email: _email, password: _password);
 
-                                if (user != null) {
-                                  _email:
-                                  '';
-                                  _password:
-                                  '';
-                                  print("Success");
-                                  Navigator.pushNamed(context, '/landingpage');
-                                } else {
-                                  print("User is not found");
-                                }
-                              } catch (e) {
-                                print(e);
-                              }
+                              //   // ignore: unnecessary_null_comparison
+                              //   if (user != null) {
+                              //     Navigator.pushNamed(context, '/landingpage');
+                              //   } else {
+                              //     // print("User is not found");
+                              //   }
                             },
-                            color: Color.fromARGB(255, 255, 125, 168),
+                            color: const Color.fromARGB(255, 255, 125, 168),
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
-                            child: Container(
-                              child: Text(
-                                "Log In",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17,
-                                  color: Colors.white,
-                                ),
+                            child: const Text(
+                              "Log In",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -129,7 +120,7 @@ class LogInPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Аккаунт байхгүй юу? "),
+                          const Text("Аккаунт байхгүй юу? "),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -137,21 +128,14 @@ class LogInPage extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => SignUpPage()));
                             },
-                            child: Container(
-                                child: Text(
+                            child: const Text(
                               "Бүртгүүлэх",
                               style: TextStyle(
                                 color: Color.fromARGB(255, 255, 125, 168),
                                 fontWeight: FontWeight.w400,
                                 fontSize: 15,
                               ),
-                            )),
-                            // onLongPress: () {
-                            //   Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //           builder: ((context) => ForgetPass())));
-                            // },
+                            ),
                           ),
                         ],
                       ),
@@ -161,7 +145,9 @@ class LogInPage extends StatelessWidget {
               ],
             ),
           ),
-        )));
+        ),
+      ),
+    );
   }
 }
 
@@ -171,18 +157,16 @@ Widget inputFile({label, obscureText = false}) {
     children: <Widget>[
       Text(
         label,
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
       ),
-      SizedBox(
-        height: 5,
-      ),
+      const SizedBox(height: 5),
       TextField(
         onChanged: (value) {
           _email = value;
         },
         obscureText: obscureText,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
@@ -196,7 +180,7 @@ Widget inputFile({label, obscureText = false}) {
           ),
         ),
       ),
-      SizedBox(height: 5),
+      const SizedBox(height: 5),
     ],
   );
 }
@@ -207,18 +191,16 @@ Widget inputPass({label, obscureText = false}) {
     children: <Widget>[
       Text(
         label,
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
       ),
-      SizedBox(
-        height: 5,
-      ),
+      const SizedBox(height: 5),
       TextField(
         onChanged: (value) {
           _password = value;
         },
         obscureText: obscureText,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
