@@ -90,7 +90,6 @@ class LogInPage extends StatelessWidget {
                             height: 37,
                             onPressed: () async {
                               Navigator.pushNamed(context, '/landingpage');
-                              // try {
                               //   final user =
                               //       await _auth.signInWithEmailAndPassword(
                               //           email: _email, password: _password);
@@ -101,9 +100,6 @@ class LogInPage extends StatelessWidget {
                               //   } else {
                               //     // print("User is not found");
                               //   }
-                              // } catch (e) {
-                              //   // print(e);
-                              // }
                             },
                             color: const Color.fromARGB(255, 255, 125, 168),
                             elevation: 0,
